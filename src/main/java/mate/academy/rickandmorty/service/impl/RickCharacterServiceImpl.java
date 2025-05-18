@@ -1,5 +1,7 @@
 package mate.academy.rickandmorty.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.rickandmorty.dto.RickCharacterDto;
 import mate.academy.rickandmorty.model.RickCharacter;
@@ -7,17 +9,10 @@ import mate.academy.rickandmorty.repository.RickCharacterRepository;
 import mate.academy.rickandmorty.service.RickCharacterService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 public class RickCharacterServiceImpl implements RickCharacterService {
     private final RickCharacterRepository repository;
-
-//    public RickCharacterService(RickCharacterRepository repository) {
-//        this.repository = repository;
-//    }
 
     @Override
     public RickCharacterDto getRandomCharacter() {
@@ -25,12 +20,12 @@ public class RickCharacterServiceImpl implements RickCharacterService {
         return convertToDto(character);
     }
 
-@Override
-public List<RickCharacterDto> searchCharacters(String name) {
-    return repository.findByNameContainingIgnoreCase(name).stream()
-            .map(this::convertToDto)
-            .collect(Collectors.toList());
-}
+    @Override
+    public List<RickCharacterDto> searchCharacters(String name) {
+        return repository.findByNameContainingIgnoreCase(name).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
 
     private RickCharacterDto convertToDto(RickCharacter character) {
         return new RickCharacterDto(
